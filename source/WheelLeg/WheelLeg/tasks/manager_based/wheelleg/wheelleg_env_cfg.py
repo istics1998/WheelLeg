@@ -290,14 +290,19 @@ class RewardsCfg:
     #     weight=-5.0,
     #     params={"std": 1, "command_name": "base_velocity", "asset_cfg": SceneEntityCfg("robot")},
     # ) 
+    # ⚠ exp 奖励核 std 必须与指令范围匹配,否则没区分度。diag 实证:std=0.5 相对 lin 指令
+    # ±0.3 太宽 → 静止机器人白拿 89% 奖励,策略实测 87.6% ≈ 静止,即前进"学了个寂寞",
+    # 走打滑保平衡捷径(轮子空转、车身不动)。参考任务(ANYmal 等)std/指令范围≈0.5 才有梯度,
+    # 故 lin std 收到 0.15(=0.5×0.3):静止仅拿44%,跟到位拿100%,逼策略真前进。
+    # track_ang 的 0.5 相对 ±1.5~3.0 指令比例本就够尖(不转仅15-30%,已验证真学会),不动它。
     track_lin_vel_xy_exp = RewTerm(
-        func=mdp.track_lin_vel_xy_exp, 
-        weight=50.0, 
-        params={"command_name": "base_velocity", "std": math.sqrt(0.25)}
+        func=mdp.track_lin_vel_xy_exp,
+        weight=50.0,
+        params={"command_name": "base_velocity", "std": 0.15}
     )
     track_ang_vel_z_exp = RewTerm(
-        func=mdp.track_ang_vel_z_exp, 
-        weight=30.0, 
+        func=mdp.track_ang_vel_z_exp,
+        weight=30.0,
         params={"command_name": "base_velocity", "std": math.sqrt(0.25)}
     )
     # 高度追踪
