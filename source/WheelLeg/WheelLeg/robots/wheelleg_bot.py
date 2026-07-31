@@ -39,12 +39,12 @@ WHEELLEG_CONFIG = ArticulationCfg(
     ),
     # 初始状态
     init_state=ArticulationCfg.InitialStateCfg(
-        joint_pos={ 
+        joint_pos={
             "body_to_sprocket2"   : 0.52,
-            "sprocket2_to_g6_l"   : 0.0,
-            "g6_l_to_wheel1"      : 0.0,  
+            "sprocket2_to_g6_l"   : -0.5,  # 0.0→-0.5: 伸展膝关节,尝试压低主驱动轮使其接地
+            "g6_l_to_wheel1"      : 0.0,
             "body_to_sprocket4"   : -0.52,
-            "sprocket4_to_g6_r"   : 0.0,
+            "sprocket4_to_g6_r"   : 0.5,   # 0.0→+0.5: 右腿对称（关节方向相反）
             "g6_r_to_wheel2"      : 0.0,
             "g6_l_to_modelwheel1" : 0.0,
             "g6_r_to_modelwheel2" : 0.0,
@@ -64,9 +64,11 @@ WHEELLEG_CONFIG = ArticulationCfg(
             damping=1.0,
         ),
         "joint_wheel_l_acts": ImplicitActuatorCfg(
-            joint_names_expr=["g6_l_to_wheel1"], 
+            joint_names_expr=["g6_l_to_wheel1"],
             stiffness=0.0,
-            damping=5.0,
+            # 5→50: 主轮阻尼加大10倍,让轮速指令真正转化为地反力推进.
+            # 阻尼=5时轮子几乎自由转(零摩阻),即使主轮接地也推不动车身.
+            damping=50.0,
         ),
         "joint_twist_r_acts": ImplicitActuatorCfg(
             joint_names_expr=["body_to_sprocket4"], 
@@ -81,7 +83,7 @@ WHEELLEG_CONFIG = ArticulationCfg(
         "joint_wheel_r_acts": ImplicitActuatorCfg(
             joint_names_expr=["g6_r_to_wheel2"],
             stiffness=0.0,
-            damping=5.0,
+            damping=50.0,  # 5→50: 同左轮
         ),
         # 后保护轮(自行车训练轮):被动自由滚动,不带电机。原 USD 给它挂了位置弹簧
         # (targetPos=0),会把轮子拽停在地上拖行而非滚动。这里显式接管:刚度=0(不做位置
