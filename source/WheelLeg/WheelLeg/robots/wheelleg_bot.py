@@ -41,10 +41,10 @@ WHEELLEG_CONFIG = ArticulationCfg(
     init_state=ArticulationCfg.InitialStateCfg(
         joint_pos={
             "body_to_sprocket2"   : 0.52,
-            "sprocket2_to_g6_l"   : -0.5,  # 0.0→-0.5: 伸展膝关节,尝试压低主驱动轮使其接地
+            "sprocket2_to_g6_l"   : 0.5,   # 0.0→+0.5: 与右腿同符号(R+0.5已验证接地),使左轮也落地
             "g6_l_to_wheel1"      : 0.0,
             "body_to_sprocket4"   : -0.52,
-            "sprocket4_to_g6_r"   : 0.5,   # 0.0→+0.5: 右腿对称（关节方向相反）
+            "sprocket4_to_g6_r"   : 0.5,   # 0.0→+0.5: 已验证右轮接触力4-5.6N,方向正确
             "g6_r_to_wheel2"      : 0.0,
             "g6_l_to_modelwheel1" : 0.0,
             "g6_r_to_modelwheel2" : 0.0,
