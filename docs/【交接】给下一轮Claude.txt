@@ -1,0 +1,196 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║     WheelLeg 项目交接文档 - 给下一轮 Claude                 ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+更新时间: 2026-07-20 01:10
+交接状态: 视觉问题未完全解决，用户希望看到机器人本体移动
+
+═══════════════════════════════════════════════════════════════
+
+## 核心问题（仍需解决）⚠️
+
+**现象**:
+- ✅ 键盘按键有响应，速度箭头（绿/蓝）移动正常
+- ✅ 终端日志显示机器人位置数据在变化（物理正常）
+- ❌ **Isaac Sim 窗口中机器人本体静止不动**（视觉问题）
+
+**用户需求**:
+- 希望在 Isaac Sim 窗口中**看到机器人本体移动**
+- 不仅仅是箭头移动，要看到机器人整体在画面中移动
+
+═══════════════════════════════════════════════════════════════
+
+## 已尝试的方案（均无效）
+
+### 方案1: write_root_pose_to_sim() ❌
+- 位置: `scripts/skrl/play_teleop.py` 行 294-299
+- 代码: 每次 step 后调用 `robot.write_root_pose_to_sim(root_pose)`
+- 结果: 无效，机器人本体仍不动
+
+### 方案2: 启用 Fabric 模式 ❌
+- 脚本: `wl_autotest_fabric.sh`（去掉 --disable_fabric）
+- 预期: Fabric 自动同步 visual/physics
+- 结果: 无效，机器人本体仍不动，但箭头和渲染正常
+
+### 方案3: 接受现状（当前建议）
+- 状态: 物理 100% 正常，仅视觉有问题
+- 文档: 桌面上的【最终方案】接受现状.txt
+- **用户不满意**：仍希望看到机器人移动
+
+═══════════════════════════════════════════════════════════════
+
+## 根本原因分析
+
+**确认的技术问题**:
+- USD 文件: `wheelleg_mini.usd` 使用了 SkelMesh（骨骼蒙皮）
+- 日志警告: `getBypassRenderSkelMeshProcessing ... has not been populated`
+- 在 Isaac Sim 中，SkelMesh 的 visual mesh 不会自动跟随刚体的物理 transform
+
+**为什么箭头能动但机器人不动**:
+- 速度箭头: VisualizationMarkers 直接绘制在 `root_pos_w`，跟随物理位置
+- 机器人本体: SkelMesh 视觉网格，停留在初始位置，不跟随物理刚体
+
+═══════════════════════════════════════════════════════════════
+
+## 下一轮建议方向 🎯
+
+### 优先级1: 修改 USD 文件（彻底解决）
+
+**方法A: 将 SkelMesh 改为普通 Mesh**
+1. 检查 `source/WheelLeg/WheelLeg/robots/wheelleg_mini.usd`
+2. 找到使用 SkelMesh 的部分
+3. 改为普通 Mesh 或 Xform + Mesh
+4. 测试物理属性是否一致
+
+**方法B: 重新导出 USD**
+1. 找到原始 URDF 或 Blender 源文件
+2. 使用 Isaac Sim 的 URDF Importer 重新导出
+3. 导出时选择不使用骨骼动画
+4. 确保 visual mesh 直接挂在 link 下
+
+**方法C: 使用其他机器人模型**
+- 寻找 IsaacLab 中其他轮腿机器人模型
+- 或使用简化的几何体（长方体+圆柱体）
+- 只要物理属性一致即可
+
+### 优先级2: 深度调试（如果USD修改困难）
+
+**检查 USD 结构**:
+```bash
+# 使用 USD 工具检查文件结构
+usdview source/WheelLeg/WheelLeg/robots/wheelleg_mini.usd
+# 或者
+usdcat source/WheelLeg/WheelLeg/robots/wheelleg_mini.usd | grep -A 10 "Skel"
+```
+
+**尝试强制更新 visual prim**:
+- 研究 IsaacLab 的 Articulation 类
+- 查找是否有其他 API 可以强制更新 visual mesh
+- 例如 `write_visual_pose_to_sim()` 或类似方法
+
+**测试简化场景**:
+- 创建一个最小测试用例（单个刚体 + SkelMesh）
+- 验证 SkelMesh 是否能被手动更新
+- 确认是 USD 问题还是 IsaacLab 的问题
+
+═══════════════════════════════════════════════════════════════
+
+## 项目当前状态
+
+### 文件位置
+```
+项目目录: ~/桌面/Isaac_project/WheelLeg/
+
+关键文件:
+- HANDOFF.md - 完整技术历史（已更新）
+- QUICK_START.md - 使用指南
+- SESSION_SUMMARY.md - 第二轮工作记录
+
+脚本:
+- wl_teleop.sh - 键盘遥控（含修复代码）
+- wl_autotest.sh - 自动测试
+- wl_train.sh - 训练
+
+USD 文件:
+- source/WheelLeg/WheelLeg/robots/wheelleg_mini.usd
+
+Checkpoint:
+- logs/skrl/cartpole_direct/2026-07-19_20-51-22_ppo_torch/checkpoints/agent_96000.pt
+```
+
+### 环境信息
+- Python 环境: `isaaclab45` (conda)
+- Isaac Sim: 4.5
+- IsaacLab: 最新版本
+- 机器: 32G RAM, RTX 4060 8G, 无 swap
+
+### 当前运行状态
+- 键盘遥控正在运行（PID 可能已变化）
+- checkpoint agent_96000.pt (9.6万步) 功能正常
+- 物理仿真 100% 正常，仅视觉有问题
+
+═══════════════════════════════════════════════════════════════
+
+## 重要提示给下一轮 Claude
+
+1. **用户明确需求**: 必须看到机器人本体移动，不能只看箭头
+2. **不要再说"接受现状"**: 用户已经拒绝了这个方案
+3. **优先尝试**: 修改 USD 文件是最直接的解决方案
+4. **备选**: 如果 USD 太复杂，考虑换一个机器人模型
+
+5. **验证方法**:
+   - 运行 `./wl_teleop.sh`
+   - 按 W 键前进
+   - 在 Isaac Sim 窗口中确认机器人**本体**移动
+
+6. **不要重复已失败的方案**:
+   - ❌ write_root_pose_to_sim()
+   - ❌ Fabric 模式
+   - 这两个已经验证无效
+
+7. **物理正常**:
+   - 训练、策略、数据都没问题
+   - 只是视觉渲染的问题
+   - 但必须解决，用户要看到机器人动
+
+═══════════════════════════════════════════════════════════════
+
+## 可能有用的资源
+
+**IsaacLab 文档**:
+- Articulation API: /home/ist/IsaacLab/docs/
+- USD 导入指南: Isaac Sim 官方文档
+
+**USD 相关**:
+- USD 工具: `usdview`, `usdcat`
+- Pixar USD 文档: https://graphics.pixar.com/usd/docs/
+
+**类似问题搜索**:
+- "Isaac Sim SkelMesh not moving with physics"
+- "IsaacLab visual mesh not following articulation"
+- "USD skeleton mesh physics simulation"
+
+═══════════════════════════════════════════════════════════════
+
+## 清理命令（开始新会话前）
+
+```bash
+# 停止所有 Isaac Sim 进程
+pkill -9 -f "isaac|omni|play"
+
+# 检查进程
+ps aux | grep -E "isaac|play" | grep -v grep
+
+# 检查内存
+free -h
+```
+
+═══════════════════════════════════════════════════════════════
+
+祝下一轮顺利解决视觉问题！💪
+
+重点: **修改 USD 文件或更换机器人模型**
+
+═══════════════════════════════════════════════════════════════

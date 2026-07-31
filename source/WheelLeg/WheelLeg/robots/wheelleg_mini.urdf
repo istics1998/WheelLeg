@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="wheelleg_mini">
+  <link name="body">
+    <inertial>
+      <origin xyz="0.000126206588654872 2.98950535160269E-09 0.0366352603875917" rpy="0 0 0" />
+      <mass value="1.79352148343781" />
+      <inertia ixx="0.00118202765538466" ixy="-4.97873781208706E-09" ixz="8.17549610595725E-08" iyy="0.00154279242921694" iyz="2.86939228046628E-09" izz="0.00169319520072238" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/body.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.847058823529412 0.847058823529412 0.847058823529412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/body.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="sprocket1">
+    <inertial>
+      <origin xyz="0.013511 0.025074 0.00066888" rpy="0 0 0" />
+      <mass value="0.026364" />
+      <inertia ixx="4.3462E-06" ixy="-1.8705E-07" ixz="-3.2063E-07" iyy="1.1937E-05" iyz="-9.26E-09" izz="1.0807E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_to_sprocket1" type="continuous">
+    <origin xyz="0.00016122 0.0843 0.067894" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="sprocket1" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="link1_l">
+    <inertial>
+      <origin xyz="-0.005454 5.5511E-16 -0.03077" rpy="0 0 0" />
+      <mass value="0.0072161" />
+      <inertia ixx="3.087E-06" ixy="1.0031E-20" ixz="-5.2045E-07" iyy="3.2096E-06" iyz="5.3923E-20" izz="2.4289E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link1_l.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link1_l.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="sprocket1_to_link1_l" type="continuous">
+    <origin xyz="0.052436 0.05045 0.0025959" rpy="0 0 0" />
+    <parent link="sprocket1" />
+    <child link="link1_l" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link2_l">
+    <inertial>
+      <origin xyz="-0.0504798876950968 -0.0111000000000208 0.0113235827374882" rpy="0 0 0" />
+      <mass value="0.0147141647920255" />
+      <inertia ixx="1.84163589707192E-06" ixy="7.87237689494553E-20" ixz="4.1815864003488E-06" iyy="1.49229283738463E-05" iyz="-2.32591035347439E-20" izz="1.33265285566415E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link2_l.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link2_l.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link1_l_to_link2_l" type="continuous">
+    <origin xyz="-0.010908 0 -0.061541" rpy="0 0 0" />
+    <parent link="link1_l" />
+    <child link="link2_l" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="sprocket2">
+    <inertial>
+      <origin xyz="-0.01584 0.017566 -0.028941" rpy="0 0 0" />
+      <mass value="0.071466" />
+      <inertia ixx="7.9577E-05" ixy="5.0329E-08" ixz="-2.6897E-05" iyy="0.00010216" iyz="5.9825E-08" izz="2.5785E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_to_sprocket2" type="continuous">
+    <origin xyz="0.00016122 0.08595 0.067894" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="sprocket2" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link3_l">
+    <inertial>
+      <origin xyz="0.011142 -1.0408E-16 0.00088123" rpy="0 0 0" />
+      <mass value="0.014714" />
+      <inertia ixx="1.8416E-06" ixy="7.8724E-20" ixz="4.1816E-06" iyy="1.4923E-05" iyz="-2.3261E-20" izz="1.3327E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link3_l.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link3_l.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="sprocket2_to_link3_l" type="continuous">
+    <origin xyz="-0.020094 0.0377 -0.048503" rpy="0 0 0" />
+    <parent link="sprocket2" />
+    <child link="link3_l" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link4_l">
+    <inertial>
+      <origin xyz="-0.010047 -0.0111 -0.024251" rpy="0 0 0" />
+      <mass value="0.0061961" />
+      <inertia ixx="1.7722E-06" ixy="1.5661E-21" ixz="-6.7883E-07" iyy="2.0838E-06" iyz="2.7811E-21" izz="4.1487E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link4_l.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link4_l.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link3_l_to_link4_l" type="continuous">
+    <origin xyz="-0.033691 0 0.021561" rpy="0 0 0" />
+    <parent link="link3_l" />
+    <child link="link4_l" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link5_l">
+    <inertial>
+      <origin xyz="0.076426 6.8612E-05 -0.02929" rpy="0 0 0" />
+      <mass value="0.061896" />
+      <inertia ixx="1.3152E-05" ixy="2.0169E-07" ixz="2.4144E-05" iyy="0.00016129" iyz="1.3757E-08" izz="0.0001505" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link5_l.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link5_l.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link4_l_to_link5_l" type="continuous">
+    <origin xyz="-0.020094 0.001 -0.048503" rpy="0 0 0" />
+    <parent link="link4_l" />
+    <child link="link5_l" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link6_l">
+    <inertial>
+      <origin xyz="0.0427344313541752 6.86121883748253E-05 -0.00772813827375069" rpy="0 0 0" />
+      <mass value="0.0618958392198437" />
+      <inertia ixx="1.31521827784697E-05" ixy="2.01690826637606E-07" ixz="2.41439915038629E-05" iyy="0.00016128980597272" iyz="1.3756570609559E-08" izz="0.000150498339008336" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link6_l.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link6_l.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="sprocket2_to_g6_l" type="continuous">
+    <origin xyz="-0.040187 0.0387 -0.097005" rpy="0 0 0" />
+    <parent link="sprocket2" />
+    <child link="link6_l" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="wheel1">
+    <inertial>
+      <origin xyz="0.000220382906314931 -0.0154927042168653 -3.87039049892651E-05" rpy="0 0 0" />
+      <mass value="0.0546781441681801" />
+      <inertia ixx="1.14462112731967E-05" ixy="8.7463171302561E-08" ixz="-1.41097807643421E-08" iyy="1.48164649102695E-05" iyz="-1.54229393241884E-08" izz="1.12958176468111E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/wheel1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.250980392156863 0.250980392156863 0.250980392156863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/wheel1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="g6_l_to_wheel1" type="continuous">
+    <origin xyz="0.12324 0.039 -0.020885" rpy="0 0 0" />
+    <parent link="link6_l" />
+    <child link="wheel1" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="wheel_link1">
+    <inertial>
+      <origin xyz="-8.67361737988404E-17 -0.00925 6.93889390390723E-18" rpy="0 0 0" />
+      <mass value="0.0170871224428749" />
+      <inertia ixx="1.84790109585341E-06" ixy="8.63845773849403E-21" ixz="1.62800776777801E-22" iyy="2.72112424902783E-06" iyz="1.94967667364277E-22" izz="1.84790109585341E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/wheel_link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/wheel_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="g6_l_to_modelwheel1" type="continuous">
+    <origin xyz="-0.014959 0.00925 -0.029975" rpy="0 0 0" />
+    <parent link="link6_l" />
+    <child link="wheel_link1" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="sprocket3">
+    <inertial>
+      <origin xyz="0.0135110308925077 -0.0310743950059285 0.00066887681061889" rpy="0 0 0" />
+      <mass value="0.0263641527788881" />
+      <inertia ixx="4.34619892052473E-06" ixy="1.87047958781646E-07" ixz="-3.20631844469104E-07" iyy="1.19374845939326E-05" iyz="9.25999230545754E-09" izz="1.08069544381001E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_to_sprocket3" type="continuous">
+    <origin xyz="0.00016122 -0.0783 0.067894" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="sprocket3" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link1_r">
+    <inertial>
+      <origin xyz="-0.00545396358943633 5.55111512312578E-17 -0.0307703880567845" rpy="0 0 0" />
+      <mass value="0.00721611301279492" />
+      <inertia ixx="3.08696058028922E-06" ixy="1.109339027893E-21" ixz="-5.20453717117461E-07" iyy="3.20958512854598E-06" iyz="4.73690056856948E-21" izz="2.4289309847001E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link1_r.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link1_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="sprocket3_to_link1_r" type="continuous">
+    <origin xyz="0.052436 -0.05645 0.0025959" rpy="0 0 0" />
+    <parent link="sprocket3" />
+    <child link="link1_r" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="link2_r">
+    <inertial>
+      <origin xyz="-0.0504798876950993 0.0110999999999542 0.0113235827375182" rpy="0 0 0" />
+      <mass value="0.0147141647920255" />
+      <inertia ixx="1.84163589707206E-06" ixy="9.7077326032601E-20" ixz="4.18158640034898E-06" iyy="1.49229283738463E-05" iyz="-3.0778177114492E-20" izz="1.33265285566413E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link2_r.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link2_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link1_r_to_link2_r" type="continuous">
+    <origin xyz="-0.010908 0 -0.061541" rpy="0 0 0" />
+    <parent link="link1_r" />
+    <child link="link2_r" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="sprocket4">
+    <inertial>
+      <origin xyz="-0.0158396495443035 -0.0175657732983055 -0.0289413856913027" rpy="0 0 0" />
+      <mass value="0.0714660601335625" />
+      <inertia ixx="7.95768204425331E-05" ixy="-5.03290367478439E-08" ixz="-2.68969035577708E-05" iyy="0.000102155417493633" iyz="-5.98245575252837E-08" izz="2.57849696913716E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_to_sprocket4" type="continuous">
+    <origin xyz="0.00016122 -0.08595 0.067894" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="sprocket4" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="link3_r">
+    <inertial>
+      <origin xyz="0.0111415959392049 -1.11022302462516E-16 0.000881228850423854" rpy="0 0 0" />
+      <mass value="0.0147141647920255" />
+      <inertia ixx="1.84163589707206E-06" ixy="9.70778170745369E-20" ixz="4.18158640034898E-06" iyy="1.49229283738463E-05" iyz="-3.07772150987247E-20" izz="1.33265285566413E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link3_r.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link3_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="sprocket4_to_link3_r" type="continuous">
+    <origin xyz="-0.020094 -0.0377 -0.048503" rpy="0 0 0" />
+    <parent link="sprocket4" />
+    <child link="link3_r" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="link4_r">
+    <inertial>
+      <origin xyz="-0.0100468136999744 0.0111000000000171 -0.0242512687189602" rpy="0 0 0" />
+      <mass value="0.00619611301279491" />
+      <inertia ixx="1.77221273675548E-06" ixy="2.7448601901264E-21" ixz="-6.78826061116414E-07" iyy="2.08381235419085E-06" iyz="5.99219202482314E-21" izz="4.14868167648624E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link4_r.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link4_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link3_r_to_link4_r" type="continuous">
+    <origin xyz="-0.033691 0 0.021561" rpy="0 0 0" />
+    <parent link="link3_r" />
+    <child link="link4_r" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="link5_r">
+    <inertial>
+      <origin xyz="0.0764257748183381 -6.86118240656175E-05 -0.0292895265735411" rpy="0 0 0" />
+      <mass value="0.0618958365634562" />
+      <inertia ixx="1.31521825994885E-05" ixy="-2.01690049044583E-07" ixz="2.41439915259125E-05" iyy="0.000161289802821557" iyz="-1.37565508379023E-08" izz="0.000150498335754797" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link5_r.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link5_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link4_r_to_link5_r" type="continuous">
+    <origin xyz="-0.020094 -0.001 -0.048503" rpy="0 0 0" />
+    <parent link="link4_r" />
+    <child link="link5_r" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="link6_r">
+    <inertial>
+      <origin xyz="0.0427344327102081 -6.86118240652844E-05 -0.00772813823807107" rpy="0 0 0" />
+      <mass value="0.0618958365634563" />
+      <inertia ixx="1.31521825994885E-05" ixy="-2.01690049044583E-07" ixz="2.41439915259125E-05" iyy="0.000161289802821557" iyz="-1.37565508379023E-08" izz="0.000150498335754797" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link6_r.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/link6_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="sprocket4_to_g6_r" type="continuous">
+    <origin xyz="-0.040187 -0.0387 -0.097005" rpy="0 0 0" />
+    <parent link="sprocket4" />
+    <child link="link6_r" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="wheel2">
+    <inertial>
+      <origin xyz="0.000220382906318956 0.0154927042170693 -3.87039048081322E-05" rpy="0 0 0" />
+      <mass value="0.05467814416818" />
+      <inertia ixx="1.14462112731967E-05" ixy="-8.74631713024195E-08" ixz="-1.41097807643315E-08" iyy="1.48164649102695E-05" iyz="1.54229393242E-08" izz="1.12958176468111E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/wheel2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/wheel2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="g6_r_to_wheel2" type="continuous">
+    <origin xyz="0.12324 -0.039 -0.020885" rpy="0 0 0" />
+    <parent link="link6_r" />
+    <child link="wheel2" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="wheel_link2">
+    <inertial>
+      <origin xyz="-1.37121217158587E-14 0 5.66907631949221E-15" rpy="0 0 0" />
+      <mass value="0.0170871224428749" />
+      <inertia ixx="1.84790109585341E-06" ixy="8.3870962711523E-21" ixz="-1.54686221133302E-22" iyy="2.72112424902783E-06" iyz="1.04159833815484E-22" izz="1.84790109585341E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/wheel_link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/wheel_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="g6_r_to_modelwheel2" type="continuous">
+    <origin xyz="-0.0149588300755711 9.62947137343462E-05 -0.0299747127220202" rpy="0 0 0" />
+    <parent link="link6_r" />
+    <child link="wheel_link2" />
+    <axis xyz="0 0 0" />
+  </joint>
+  <link name="sprocket_link1">
+    <inertial>
+      <origin xyz="-2.77222689248902E-13 0.00338042204057104 -9.29117893733178E-15" rpy="0 0 0" />
+      <mass value="0.0242172640986945" />
+      <inertia ixx="3.27385113763148E-06" ixy="1.19424691926913E-20" ixz="-2.47020041597913E-21" iyy="4.56952603920605E-06" iyz="9.34687804111875E-22" izz="3.27385113763148E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket_link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_to_sprocket_link1" type="continuous">
+    <origin xyz="0.060161 0.077975 0.0465" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="sprocket_link1" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="sprocket_link2">
+    <inertial>
+      <origin xyz="-6.09171253279067E-13 0.00327135302542496 1.77954873059605E-13" rpy="0 0 0" />
+      <mass value="0.0158497909886239" />
+      <inertia ixx="1.83174161293612E-06" ixy="1.23738829827595E-20" ixz="-1.94516690920671E-21" iyy="3.13326573837489E-06" iyz="4.84524755472965E-22" izz="1.83174161293612E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket_link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_to_sprocket_link2" type="continuous">
+    <origin xyz="-0.059839 0.07415 0.0465" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="sprocket_link2" />
+    <axis xyz="0 -1 0" />
+  </joint>
+  <link name="sprocket_link3">
+    <inertial>
+      <origin xyz="4.11615186379777E-14 -0.00338042204031086 -1.48006606970341E-14" rpy="0 0 0" />
+      <mass value="0.0242172640986945" />
+      <inertia ixx="3.27385113763148E-06" ixy="1.21770972827756E-20" ixz="-1.72040642713959E-21" iyy="4.56952603920604E-06" iyz="-7.01258011580204E-22" izz="3.27385113763148E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket_link3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_to_sprocket_link3" type="continuous">
+    <origin xyz="0.060161 -0.077975 0.0465" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="sprocket_link3" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="sprocket_link4">
+    <inertial>
+      <origin xyz="4.46292468125098E-14 -0.00327135302501688 -2.15105711021124E-14" rpy="0 0 0" />
+      <mass value="0.0158497909886239" />
+      <inertia ixx="1.83174161293612E-06" ixy="1.06645036793828E-20" ixz="-1.19230330481276E-21" iyy="3.13326573837489E-06" iyz="-9.3909171017122E-22" izz="1.83174161293612E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket_link4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="meshes/sprocket_link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_to_sprocket_link4" type="continuous">
+    <origin xyz="-0.059839 -0.07415 0.0465" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="sprocket_link4" />
+    <axis xyz="0 1 0" />
+  </joint>
+</robot>
