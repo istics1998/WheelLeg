@@ -79,8 +79,10 @@ for (rl, rr, label) in PHASES:
         fresh = uenv.observation_manager.compute()["policy"]
         with torch.inference_mode():
             out = runner.agent.act(fresh, None, timestep=0, timesteps=0)
-            actions = out[-1].get("mean_actions", out[0]).clone()
-        # 覆写两个轮动作分量(idx 4,5)
+            raw = out[-1].get("mean_actions", out[0])
+        # 新建普通 tensor 拷入(避免 inference tensor 无法 inplace),再覆写两轮动作(idx 4,5)
+        actions = torch.zeros_like(raw)
+        actions.copy_(raw)
         actions[:, 4] = rl
         actions[:, 5] = rr
         env.step(actions)
