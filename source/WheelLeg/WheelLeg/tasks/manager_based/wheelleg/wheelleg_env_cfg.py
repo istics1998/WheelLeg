@@ -254,10 +254,15 @@ class CommandsCfg:
         # 本机离线拿不到 → FileNotFoundError 崩溃(issac 自己退出)。箭头只是显示
         # 目标/当前速度方向的辅助,与机器人本体、地面、物理、控制无关,关掉不影响训练与 play。
         debug_vis=False,
+        # ⚠ 指令范围必须对齐物理能力。diag 实测:轮速 clip ±10rad/s(见 ActionsCfg)下,
+        # 前进顶到 ~0.36 m/s(轮半径≈0.036m)。原 ±0.5/±0.5π 已略超,curriculum 更拉到
+        # ±2.0/±2π —— 策略大部分时间在追物理够不到的指令(超能力 5 倍),tracking 奖励恒≈0,
+        # 学习信号被污染,转向学不会(实测右转方向都反)。故压到能力内:
+        #   lin_vel_x ±0.3(留余量,<0.36 上限);ang_vel_z ±1.5(±10 clip 理论可自旋~4.8,富余)。
         ranges=mdp.UniformVelocityCommandCfg.Ranges(
-            lin_vel_x=(-0.5, 0.5), 
-            lin_vel_y=(-0.0, 0.0), 
-            ang_vel_z=(-0.5*math.pi, 0.5*math.pi), 
+            lin_vel_x=(-0.3, 0.3),
+            lin_vel_y=(-0.0, 0.0),
+            ang_vel_z=(-1.5, 1.5),
             heading=(-math.pi, math.pi)
         ),
     )
@@ -384,13 +389,16 @@ class TerminationsCfg:
 @configclass
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
+    # ⚠ curriculum 只能在物理可达范围内加难度,否则重蹈"追不可能指令"覆辙。
+    # 上限对齐:lin_vel_x 封顶 ±0.3(物理上限~0.36),ang_vel_z 分级长到 ±3.0(<自旋极限~4.8)。
+    # lin 已在初始就到 ±0.3,故 lin override 保持 ±0.3(实为不再加难,只保结构对齐)。
     lin_x_range_override_1 = CurrTerm(
         func=mdp.modify_term_cfg,
         params={
             "address": "commands.base_velocity.ranges.lin_vel_x",
             "modify_fn": mdp.override_command_range,
             "modify_params": {
-                "value": (-1.0, 1.0),
+                "value": (-0.3, 0.3),
                 "num_steps": 5_000,
             },
         },
@@ -402,7 +410,7 @@ class CurriculumCfg:
             "address": "commands.base_velocity.ranges.ang_vel_z",
             "modify_fn": mdp.override_command_range,
             "modify_params": {
-                "value": (-math.pi, math.pi),
+                "value": (-2.0, 2.0),
                 "num_steps": 5_000,
             },
         },
@@ -414,7 +422,7 @@ class CurriculumCfg:
             "address": "commands.base_velocity.ranges.lin_vel_x",
             "modify_fn": mdp.override_command_range,
             "modify_params": {
-                "value": (-2.0, 2.0),
+                "value": (-0.3, 0.3),
                 "num_steps": 10_000,
             },
         },
@@ -426,7 +434,7 @@ class CurriculumCfg:
             "address": "commands.base_velocity.ranges.ang_vel_z",
             "modify_fn": mdp.override_command_range,
             "modify_params": {
-                "value": (-2*math.pi, 2*math.pi),
+                "value": (-3.0, 3.0),
                 "num_steps": 10_000,
             },
         },
