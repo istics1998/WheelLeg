@@ -1,4 +1,61 @@
-# Template for Isaac Lab Projects
+# WheelLeg — 轮腿机器人强化学习 (Isaac Lab)
+
+一个基于 Isaac Lab 的轮腿(wheeled-leg)机器人 RL 项目:平行四连杆 + 链轮同步的并联闭环结构,
+用 PPO(skrl)训练平衡与速度跟踪策略。
+
+## 复现步骤 (Reproduction)
+
+### 依赖版本
+
+| 组件 | 版本 |
+|------|------|
+| Isaac Sim | 4.5.0 |
+| Isaac Lab | 2.1.1 |
+| skrl | 2.1.0 (**注意不是 1.x**,脚本已按 2.x API 适配) |
+| Python | 3.10 |
+| conda 环境 | 建议名为 `isaaclab45` |
+
+### 1. 安装 Isaac Lab
+
+按官方[安装指南](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html)安装
+Isaac Sim 4.5 + Isaac Lab 2.1.1(推荐 conda 方式)。记下你的 `isaaclab.sh` 路径。
+
+### 2. Clone 本仓库并安装为可编辑扩展
+
+```bash
+git clone git@github.com:istics1998/WheelLeg.git
+cd WheelLeg
+# 用装有 Isaac Lab 的 Python 解释器
+<PATH_TO>/isaaclab.sh -p -m pip install -e source/WheelLeg
+```
+
+机器人 USD 资产(含手工添加的并联闭环 `PhysxMimicJointAPI`)与地面资产已随仓库分发,
+代码用**包内相对路径**加载,clone 到任意目录都可直接复现,无需改路径。
+
+> 训练加载的是 `robots/wheelleg_mini_loop.usd`(USD,**非** URDF)。URDF 仅作参考——
+> 它不含手工添加的闭环约束,单独导入会得到 8 根悬空从动杆的残缺模型。
+
+### 3. 训练
+
+```bash
+# 验证档(~9.6万步,先确认不发散):
+<PATH_TO>/isaaclab.sh -p scripts/skrl/train.py --task Template-Wheelleg-v0 --headless --num_envs 1024 --max_iterations 3000
+# 正式档(~192万步):
+<PATH_TO>/isaaclab.sh -p scripts/skrl/train.py --task Template-Wheelleg-v0 --headless --num_envs 1024 --max_iterations 60000
+```
+
+> `wl_train.sh` / `wl_play.sh` 是本机便捷封装,内含作者机器的绝对路径,**在别的机器上需先
+> 改脚本顶部的 `WHEELLEG_DIR` / `ISAACLAB_SH` / `CONDA_ENV`**,或直接用上面的原始命令。
+
+### 4. 回放 / 可视化
+
+```bash
+<PATH_TO>/isaaclab.sh -p scripts/skrl/play.py --task Template-Wheelleg-v0 --num_envs 1 --disable_fabric
+```
+
+`--disable_fabric` 是 SkelMesh 正常渲染所必需。
+
+---
 
 ## Overview
 

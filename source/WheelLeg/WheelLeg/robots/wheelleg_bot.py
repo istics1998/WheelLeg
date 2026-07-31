@@ -1,14 +1,19 @@
+import os
+
 import isaaclab.sim as sim_utils
 from isaaclab.assets import ArticulationCfg
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
+
+# 机器人资产随包分发,路径相对本文件解析,保证 clone 到任意目录都能复现。
+_ROBOTS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 WHEELLEG_CONFIG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
         # 并联闭环版:在原树上加 PhysxMimicJointAPI 角度耦合(平行四连杆+链轮同步),
         # 使 8 根原本悬空的从动杆随驱动关节联动。见 scripts/add_mimic_closures.py。
-        usd_path=f"/home/ist/桌面/Isaac_project/WheelLeg/source/WheelLeg/WheelLeg/robots/wheelleg_mini_loop.usd",
+        usd_path=os.path.join(_ROBOTS_DIR, "wheelleg_mini_loop.usd"),
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,
             rigid_body_enabled=True,

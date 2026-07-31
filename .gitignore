@@ -8,11 +8,17 @@
 **/*.dmp
 **/.thumbs
 
-# No USD files allowed in the repo
+# USD:默认忽略(避免误传大型/临时 USD),但机器人与地面资产必须随仓库分发,
+# 否则别人 clone 后训练加载不到模型(训练走 USD 非 URDF)。故对 robots/ 下的
+# 必要资产做例外放行。备份文件(*.usd.bak)仍忽略。
 **/*.usd
 **/*.usda
 **/*.usdc
 **/*.usdz
+!source/WheelLeg/WheelLeg/robots/**/*.usd
+!source/WheelLeg/WheelLeg/robots/**/*.usda
+!source/WheelLeg/WheelLeg/robots/**/*.usdc
+source/WheelLeg/WheelLeg/robots/**/*.usd.bak
 
 # Python
 .DS_Store

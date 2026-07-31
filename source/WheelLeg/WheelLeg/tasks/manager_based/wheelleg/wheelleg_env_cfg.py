@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 import math
+import os
 
 import isaaclab.sim as sim_utils
 from isaaclab.assets import ArticulationCfg, AssetBaseCfg
@@ -31,6 +32,11 @@ from WheelLeg.robots.wheelleg_bot import WHEELLEG_CONFIG
 from isaaclab.sensors import ImuCfg, ContactSensorCfg, RayCasterCfg, patterns
 from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
 
+# 本地地面资产随包分发,路径相对 WheelLeg 包根解析(本文件在 tasks/manager_based/wheelleg/
+# 下,上溯 3 级到包根 WheelLeg/),保证 clone 到任意目录都能复现。
+_PKG_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+_GROUND_USD = os.path.join(_PKG_ROOT, "robots", "assets", "default_environment_local.usd")
+
 
 ##
 # Scene definition
@@ -55,7 +61,7 @@ class WheellegSceneCfg(InteractiveSceneCfg):
     terrain = AssetBaseCfg(
         prim_path="/World/ground",
         spawn=sim_utils.GroundPlaneCfg(
-            usd_path="/home/ist/桌面/Isaac_project/WheelLeg/source/WheelLeg/WheelLeg/robots/assets/default_environment_local.usd",
+            usd_path=_GROUND_USD,
             physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=0.9, dynamic_friction=0.7, restitution=0.2),
         ),
     )
